@@ -1,0 +1,24 @@
+name: flutter_guarded_download
+description: "Cross Platform secure downloader for flutter projects."
+
+version: 1.0.0+1
+homepage: https://ashish-18918.web.app/
+repository: Working
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  path_provider: ^2.1.4
+  permission_handler: ^11.3.1
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
