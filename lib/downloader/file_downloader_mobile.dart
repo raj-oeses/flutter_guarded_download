@@ -29,8 +29,7 @@ class MobileFileDownloader implements FileDownloaderInterface {
       final filePath = '${directory.path}/$fileName';
       final file = File(filePath);
 
-      // await DataAccessService.fileDownload(downloadUrl, file);
-      await _downloadWithGet(downloadUrl, file,
+      await _download(downloadUrl, file,
           token: token,
           onProgress: onProgress,
           onCompleted: onCompleted,
@@ -81,12 +80,13 @@ class MobileFileDownloader implements FileDownloaderInterface {
     return _directory;
   }
 
-  Future<void> _downloadWithGet(String url, File file,
+  Future<void> _download(String url, File file,
       {String? token,
       DownloadMethod method = DownloadMethod.GET,
       ProgressCallback? onProgress,
       CompletedCallback? onCompleted,
-      ErrorCallback? onError}) async {
+      ErrorCallback? onError}) async
+  {
     try {
       //Add headers
       Map<String, String> _headers = <String, String>{
@@ -105,6 +105,7 @@ class MobileFileDownloader implements FileDownloaderInterface {
 
       final response = await http.Client().send(request);
 
+      //
       if (response.statusCode != 200) {
         onError?.call('Failed to download file: HTTP ${response.statusCode}');
         return;

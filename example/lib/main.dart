@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     downloadUrl: url,
                     fileName: "invoice_report.xlsx",
                     token: _token,
-                    method: DownloadMethod.POST,
+                    method: DownloadMethod.GET,
                     onProgress: (receivedBytes, totalBytes) {
                       print(
                           '::::::::::onProgress::${totalBytes > 0 ? receivedBytes / totalBytes : 0}');
