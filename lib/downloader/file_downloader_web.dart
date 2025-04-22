@@ -1,7 +1,7 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 
-import 'package:flutter_guarded_download/debug_print/debug_printer.dart';
+import 'package:flutter_guarded_download/enums/method_enum.dart';
 import 'package:http/http.dart' as http;
 
 import 'file_downloader_interface.dart';
@@ -20,48 +20,47 @@ class WebFileDownloader implements FileDownloaderInterface {
       ProgressCallback? onProgress,
       CompletedCallback? onCompleted,
       ErrorCallback? onError}) async {
-    DebugPrinter.info(':::::::::::::::::Download File:::::::::::::::::');
     try {
-    //   String actualFileName = fileName ?? _getFileNameFromUrl(downloadUrl);
-    //
-    //   Uint8List fileData;
-    //
-    //   // Download the file based on the method
-    //   if (method == DownloadMethod.GET) {
-    //     fileData =
-    //         await _downloadWithGet(downloadUrl, token, onProgress, onError);
-    //   } else {
-    //     fileData =
-    //         await _downloadWithPost(downloadUrl, token, onProgress, onError);
-    //   }
-    //
-    //   if (fileData.isEmpty) {
-    //     onError?.call('Downloaded file is empty');
-    //     return;
-    //   }
-    //
-    //   // Create a blob from the file data
-    //   final blob = html.Blob([fileData]);
-    //
-    //   // Create a URL for the blob
-    //   final url = html.Url.createObjectUrlFromBlob(blob);
-    //
-    //   // Create a temporary link element
-    //   final anchor = html.AnchorElement(href: url)
-    //     ..setAttribute('download', actualFileName)
-    //     ..style.display = 'none';
-    //
-    //   // Add the link to the document
-    //   html.document.body?.append(anchor);
-    //
-    //   // Trigger a click on the link to start the download
-    //   anchor.click();
-    //
-    //   // Clean up
-    //   html.Url.revokeObjectUrl(url);
-    //   anchor.remove();
-    //
-    //   onCompleted?.call(actualFileName);
+      String actualFileName = fileName ?? _getFileNameFromUrl(downloadUrl);
+
+      Uint8List fileData;
+
+      // Download the file based on the method
+      if (method == DownloadMethod.GET) {
+        fileData =
+            await _downloadWithGet(downloadUrl, token, onProgress, onError);
+      } else {
+        fileData =
+            await _downloadWithPost(downloadUrl, token, onProgress, onError);
+      }
+
+      if (fileData.isEmpty) {
+        onError?.call('Downloaded file is empty');
+        return;
+      }
+
+      // Create a blob from the file data
+      final blob = html.Blob([fileData]);
+
+      // Create a URL for the blob
+      final url = html.Url.createObjectUrlFromBlob(blob);
+
+      // Create a temporary link element
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute('download', actualFileName)
+        ..style.display = 'none';
+
+      // Add the link to the document
+      html.document.body?.append(anchor);
+
+      // Trigger a click on the link to start the download
+      anchor.click();
+
+      // Clean up
+      html.Url.revokeObjectUrl(url);
+      anchor.remove();
+
+      onCompleted?.call(actualFileName);
     } catch (e) {
       onError?.call('Error downloading file: $e');
     }
@@ -95,7 +94,7 @@ class WebFileDownloader implements FileDownloaderInterface {
 
   Future<Uint8List> _downloadWithPost(String url, String? token,
       ProgressCallback? onProgress, ErrorCallback? onError) async {
-    DebugPrinter.info('here is the URL $url\n token:::::$token');
+    print('here is the URL $url\n token:::::$token');
     try {
       final headers = <String, String>{};
       if (token != null) {

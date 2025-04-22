@@ -4,6 +4,8 @@
 
 import 'dart:async';
 
+import 'package:flutter_guarded_download/enums/method_enum.dart';
+
 /// Callback to track download progress
 typedef ProgressCallback = void Function(int receivedBytes, int totalBytes);
 
@@ -13,8 +15,6 @@ typedef CompletedCallback = void Function(String filePath);
 /// Callback when an error occurs during download
 typedef ErrorCallback = void Function(String error);
 
-/// HTTP method to use for downloading
-enum DownloadMethod { GET, POST }
 
 /// Interface for file downloader implementations
 abstract class FileDownloaderInterface {
@@ -41,19 +41,4 @@ abstract class FileDownloaderInterface {
   /// Returns true if permission is granted, false otherwise
   Future<bool> checkPermission();
 
-  /// Requests permission to save files
-  ///
-  /// Returns true if permission is granted, false otherwise
-  Future<bool> requestPermission();
 }
-
-/*
-abstract class IFileDownloader {
-  Future downloadFile(String downloadUrl,
-      {String? token,
-      String? fileName,
-      MethodEnum? method,
-      Function(double progress)? onProgress,
-      Function(String progress)? onCompleted,
-      Function(String progress)? onError});
-}*/

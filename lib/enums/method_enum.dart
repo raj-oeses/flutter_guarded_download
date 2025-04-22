@@ -1,1 +1,1 @@
-enum MethodEnum { GET, POST }
+enum DownloadMethod { GET, POST }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guarded_download/debug_print/debug_printer.dart';
 import 'package:flutter_guarded_download/downloader/file_downloader.dart';
-import 'package:flutter_guarded_download/downloader/file_downloader_interface.dart';
+import 'package:flutter_guarded_download/enums/method_enum.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,9 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             MaterialButton(
                 onPressed: () async {
-                  print(':::::::::::::we are pressing::::::::::::');
                   final url =
-                      "https://fmpartnerdev.azurewebsites.net/api/admin/Report/GetPaymentReport/Download?startDate=2025-03-22&endDate=2025-04-21&vendorId=516&showAll=1&userId=8014";
+                      "https://fmpartnerdev.azurewebsites.net/api/admin/Report/GetPaymentReport/Download?startDate=2025-03-23&endDate=2025-04-22&vendorId=516&showAll=1&userId=8014";
 
                   await _downloader.downloadFile(
                     downloadUrl: url,
@@ -73,14 +71,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     token: _token,
                     method: DownloadMethod.POST,
                     onProgress: (receivedBytes, totalBytes) {
-                      DebugPrinter.info(
+                      print(
                           '::::::::::onProgress::${totalBytes > 0 ? receivedBytes / totalBytes : 0}');
                     },
                     onCompleted: (path) {
-                      DebugPrinter.info('::::::::::onCompleted::$path');
+                      print('::::::::::onCompleted::$path');
                     },
                     onError: (error) {
-                      DebugPrinter.info('::::::::::error::$error');
+                      print('::::::::::error::$error');
                     },
                   );
                 },
@@ -98,4 +96,4 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 const String _token =
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IkQyRjU0Mjg0NDMxQTY2ODEwQ0RFODAwODQwMjU2NjYzIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NDUzMTQzNzYsImV4cCI6MTc0NTMxNDc5NiwiaXNzIjoiaHR0cHM6Ly9mbXBhcnRuZXJkZXYuYXp1cmV3ZWJzaXRlcy5uZXQvb2F1dGgiLCJhdWQiOlsiRk1SZXN0cm9BcGkiLCJodHRwczovL2ZtcGFydG5lcmRldi5henVyZXdlYnNpdGVzLm5ldC9vYXV0aC9yZXNvdXJjZXMiXSwiY2xpZW50X2lkIjoiZmx1dHRlcl9jbGlfcm8iLCJzdWIiOiI4MzY1IiwiYXV0aF90aW1lIjoxNzQ1MzE0Mzc2LCJpZHAiOiJsb2NhbCIsImZ1bGxOYW1lIjoiYWEgYWEgYWEgYWEiLCJwaG9uZU51bWJlciI6Ijc3ODg5OTY2NTUiLCJyb2xlIjpbIlVzZXIiLCJTdG9yZV9BZG1pbiIsIlN0b3JlX1N1cGVydmlzb3IiLCJQYXJ0bmVyVmVuZG9yX0FkbWluIl0sInNzIjoic2NPU3RMcHZKWEpBZjhkdHJPZTBlZ1NOWXVKeG9uQnpFNTZHcms4eDlBeno1d293QTBYbHpRIiwiZGV2aWNlX3V1aWQiOiJjNmE4YTZlNy03MzM4LTRiZDAtODBiNC0wMWI3NThjODFkZjgiLCJhbXJfZm0iOiJwd2QiLCJlbWFpbCI6ImFhYWFAZ21haWwuY29tIiwicHJvbXB0TG9nb3V0IjoiRmFsc2UiLCJqdGkiOiJGOTg2NkY1QzJCRkNFREM1MDJEM0ZEMzE4RDYzODBBOCIsImlhdCI6MTc0NTMxNDM3Niwic2NvcGUiOlsiYXBpX3Jlc3RybyIsIklkZW50aXR5U2VydmVyQXBpIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.ItXz5jasGlWlyTMmPjWKZvV1dRdZ6BU_swZFv_iI7ELTjqFmwbon5OGIUXHF9z5gg_E0A6_9dHjf-SwgaJK4g65Ig6Oj-I_JYMX9TOxF_qu1tiULiOU02svXXvLPSMoQu6dKqlJAq6AyAZ4AjtqPHQOuZt7xDEoDMm5Rg4sBNIrWqxfBKoShL-hBUsUx8BvPDONequFVFYLnQzzQyC02N-qh_dEAdHJNq6-aJ5x4FbssBgcHPl2Vg9UmouioKCOO7GNXzCZcZ_GL5sYDiMTyYnc9ehiDe_wgW3JYJ3Vty7O7uHEOMZSvf0MtzK_wHRmsRUNTKfJ4F9OZm8UouzoD3A";
+    "eyJhbGciOiJSUzI1NiIsImtpZCI6IkQyRjU0Mjg0NDMxQTY2ODEwQ0RFODAwODQwMjU2NjYzIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NDUzMTk1NzQsImV4cCI6MTc0NTMxOTk5NCwiaXNzIjoiaHR0cHM6Ly9mbXBhcnRuZXJkZXYuYXp1cmV3ZWJzaXRlcy5uZXQvb2F1dGgiLCJhdWQiOlsiRk1SZXN0cm9BcGkiLCJodHRwczovL2ZtcGFydG5lcmRldi5henVyZXdlYnNpdGVzLm5ldC9vYXV0aC9yZXNvdXJjZXMiXSwiY2xpZW50X2lkIjoiZmx1dHRlcl9jbGlfcm8iLCJzdWIiOiI4MDE0IiwiYXV0aF90aW1lIjoxNzQ1MzE5NTc0LCJpZHAiOiJsb2NhbCIsImZ1bGxOYW1lIjoiRGVlcGFrIFJhaiIsInBob25lTnVtYmVyIjoiOTg0OTE3ODk5OCIsInJvbGUiOlsiU3VwZXJBZG1pbiIsIlVzZXIiLCJDU1JfSW5jaGFyZ2UiXSwic3MiOiIwTUZhNFFrR2dEUWk3ZnFHRDZtUm1NTG1GT3JXTDlOMVdEcy9lZHdpYnVKSUR2ZnB1Y0tiRVEiLCJkZXZpY2VfdXVpZCI6IjQxN2JkZjEzLTliYTgtNGZhYS05YzU4LWE5MjQzMzI5OGEyNSIsImFtcl9mbSI6InB3ZCIsImVtYWlsIjoiZGVlcGFrakBmb29kbWFuZHUuY29tIiwicHJvbXB0TG9nb3V0IjoiRmFsc2UiLCJqdGkiOiI2MkQ4RDdBMjdDQjQyMDZDRDJFNjc1RDkyODdCODI3MyIsImlhdCI6MTc0NTMxOTU3NCwic2NvcGUiOlsiYXBpX3Jlc3RybyIsIklkZW50aXR5U2VydmVyQXBpIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.K6qEOrZEzc6Q2S2i5ZQRzY7YG47IKZyhrS29hLzO2TV87KKnHLQHmVAz75vGysKxCV-4XpkHrjYzXAp8TCNuwht9QryQ5t0pEeZ4YsSnNcQ_BHQrQNw6hDPSOP3rT8Emis6XsVq_MhJIiCoeK46cYJjAym1TekOTjYS8ObV_PLKgyo74hiTmPkqKXePc2lYNpytH71NZaNObALq_nh2Dj_OSTr46ylEGTLXbw5qnwyjdw3GohTIGlPEhyazUnMlmUOJopUsgzHZYXCnV4k7kSXBcpSBJd57c2kFfLJxqHKjfQtFefVjkuUGcZOeC8L1-OsCAPachXg359G3kfypyNQ";
