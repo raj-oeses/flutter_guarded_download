@@ -1,17 +1,16 @@
 name: flutter_guarded_download
-description: "Cross Platform secure downloader for flutter projects."
-
+description: "A Flutter package for downloading files on both web and mobile platforms with progress tracking and error handling."
 version: 1.0.0+1
-homepage: https://ashish-18918.web.app/
+homepage: https://github.com/raj-oeses/flutter_guarded_download
 repository: Working
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
+  flutter: ">=2.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
   path_provider: ^2.1.4
   permission_handler: ^11.3.1
   http: ^1.2.0
