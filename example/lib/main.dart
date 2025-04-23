@@ -64,12 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   final url =
                       "https://fmpartnerdev.azurewebsites.net/api/admin/Report/GetPaymentReport/Download?startDate=2025-03-23&endDate=2025-04-22&vendorId=516&showAll=1&userId=8014";
-
                   await _downloader.downloadFile(
                     downloadUrl: url,
                     fileName: "invoice_report.xlsx",
-                    token: _token,
-                    method: DownloadMethod.GET,
+                    // token: _token,
+                    method: DownloadMethod.POST,
                     onProgress: (receivedBytes, totalBytes) {
                       print(
                           '::::::::::onProgress::${totalBytes > 0 ? receivedBytes / totalBytes : 0}');
@@ -78,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       print('::::::::::onCompleted::$path');
                     },
                     onError: (error) {
-                      print('::::::::::error::$error');
+                      print('::::::::::error::--------$error');
                     },
                   );
                 },
@@ -96,4 +95,4 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 const String _token =
-    "eyJhbGciOiJSUzI1NiIsImtpZCI6IkQyRjU0Mjg0NDMxQTY2ODEwQ0RFODAwODQwMjU2NjYzIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NDUzMTk1NzQsImV4cCI6MTc0NTMxOTk5NCwiaXNzIjoiaHR0cHM6Ly9mbXBhcnRuZXJkZXYuYXp1cmV3ZWJzaXRlcy5uZXQvb2F1dGgiLCJhdWQiOlsiRk1SZXN0cm9BcGkiLCJodHRwczovL2ZtcGFydG5lcmRldi5henVyZXdlYnNpdGVzLm5ldC9vYXV0aC9yZXNvdXJjZXMiXSwiY2xpZW50X2lkIjoiZmx1dHRlcl9jbGlfcm8iLCJzdWIiOiI4MDE0IiwiYXV0aF90aW1lIjoxNzQ1MzE5NTc0LCJpZHAiOiJsb2NhbCIsImZ1bGxOYW1lIjoiRGVlcGFrIFJhaiIsInBob25lTnVtYmVyIjoiOTg0OTE3ODk5OCIsInJvbGUiOlsiU3VwZXJBZG1pbiIsIlVzZXIiLCJDU1JfSW5jaGFyZ2UiXSwic3MiOiIwTUZhNFFrR2dEUWk3ZnFHRDZtUm1NTG1GT3JXTDlOMVdEcy9lZHdpYnVKSUR2ZnB1Y0tiRVEiLCJkZXZpY2VfdXVpZCI6IjQxN2JkZjEzLTliYTgtNGZhYS05YzU4LWE5MjQzMzI5OGEyNSIsImFtcl9mbSI6InB3ZCIsImVtYWlsIjoiZGVlcGFrakBmb29kbWFuZHUuY29tIiwicHJvbXB0TG9nb3V0IjoiRmFsc2UiLCJqdGkiOiI2MkQ4RDdBMjdDQjQyMDZDRDJFNjc1RDkyODdCODI3MyIsImlhdCI6MTc0NTMxOTU3NCwic2NvcGUiOlsiYXBpX3Jlc3RybyIsIklkZW50aXR5U2VydmVyQXBpIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.K6qEOrZEzc6Q2S2i5ZQRzY7YG47IKZyhrS29hLzO2TV87KKnHLQHmVAz75vGysKxCV-4XpkHrjYzXAp8TCNuwht9QryQ5t0pEeZ4YsSnNcQ_BHQrQNw6hDPSOP3rT8Emis6XsVq_MhJIiCoeK46cYJjAym1TekOTjYS8ObV_PLKgyo74hiTmPkqKXePc2lYNpytH71NZaNObALq_nh2Dj_OSTr46ylEGTLXbw5qnwyjdw3GohTIGlPEhyazUnMlmUOJopUsgzHZYXCnV4k7kSXBcpSBJd57c2kFfLJxqHKjfQtFefVjkuUGcZOeC8L1-OsCAPachXg359G3kfypyNQ";
+    "eyJhbGciOiJSUzI1NiIsImtpZCI6IkNFMjk5NjlBQ0YxRDRGMkMzRUYwQTQ4Qzc0NEM1NjU0IiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NDUzOTc2NzgsImV4cCI6MTc0NTM5ODA5OCwiaXNzIjoiaHR0cHM6Ly9mbXBhcnRuZXJkZXYuYXp1cmV3ZWJzaXRlcy5uZXQvb2F1dGgiLCJhdWQiOlsiRk1SZXN0cm9BcGkiLCJodHRwczovL2ZtcGFydG5lcmRldi5henVyZXdlYnNpdGVzLm5ldC9vYXV0aC9yZXNvdXJjZXMiXSwiY2xpZW50X2lkIjoiZmx1dHRlcl9jbGlfcm8iLCJzdWIiOiI4MzY1IiwiYXV0aF90aW1lIjoxNzQ1Mzg4NDU3LCJpZHAiOiJsb2NhbCIsImZ1bGxOYW1lIjoiYWEgYWEgYWEgYWEiLCJwaG9uZU51bWJlciI6Ijc3ODg5OTY2NTUiLCJyb2xlIjpbIlVzZXIiLCJTdG9yZV9BZG1pbiIsIlN0b3JlX1N1cGVydmlzb3IiLCJQYXJ0bmVyVmVuZG9yX0FkbWluIl0sInNzIjoic2NPU3RMcHZKWEpBZjhkdHJPZTBlZ1NOWXVKeG9uQnpFNTZHcms4eDlBeno1d293QTBYbHpRIiwiZGV2aWNlX3V1aWQiOiIxMDBlNmNhYy0zMzI4LTQ3OWEtYjhlMi01ZWJiMjc5ZjdlZmMiLCJhbXJfZm0iOiJwd2QiLCJlbWFpbCI6ImFhYWFAZ21haWwuY29tIiwicHJvbXB0TG9nb3V0IjoiRmFsc2UiLCJqdGkiOiI5OTgxNUQ1OTg5ODEyRjcwQkYyRjU2MzU1OEEzMzE2QiIsImlhdCI6MTc0NTM4ODQ1Nywic2NvcGUiOlsiYXBpX3Jlc3RybyIsIklkZW50aXR5U2VydmVyQXBpIiwib2ZmbGluZV9hY2Nlc3MiXSwiYW1yIjpbInB3ZCJdfQ.rf7XBHw6KQbcU0-TzhQo78rFeJWYV65Zr63-GmqH2rM6n64xs2hMLKKB58ZLEFJFPEbjnIZhKK0Aw10lP6QSTATHSk-72ULG2W524qpICZJOGUOBgaMfR2MSHNiSwYprjv4gPuALOOLmwWju1ReOQCGk0G7LHqPpo-7SyHYvoxZS-dyHuElK9v45_xceHM4n_Q5YXDZ2r1aEhyAEOPZiA3fnclZCg5ETEiPaV_gnDRCMuK8GhCFpXNlYl2ieQABR8sd6jZAHrhFjnKGXT5liJho6BDYwlG8bT5vebkXxSluOjO3pCtT73edVeXMp9JL3ZMc98KPmEOWVXaSD5PNpjQ";

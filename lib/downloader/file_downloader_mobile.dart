@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_guarded_download/enums/method_enum.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_guarded_download/services/data_services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -29,11 +29,30 @@ class MobileFileDownloader implements FileDownloaderInterface {
       final filePath = '${directory.path}/$fileName';
       final file = File(filePath);
 
-      await _download(downloadUrl, file,
-          token: token,
-          onProgress: onProgress,
-          onCompleted: onCompleted,
-          onError: onError);
+      //Fetch the data
+      final response = await DataServices.fileDownload(downloadUrl,
+          token: token, method: method);
+
+      //
+      if (response.statusCode != 200) {
+        return onError?.call(
+            'Failed to download file: HTTP StatusCode ${response.statusCode}\n HTTP Message');
+      }
+
+      final contentLength = response.contentLength ?? 0;
+      int receivedBytes = 0;
+
+      final IOSink sink = file.openWrite();
+      await response.stream.forEach((List<int> chunk) {
+        sink.add(chunk);
+        receivedBytes += chunk.length;
+        onProgress?.call(receivedBytes, contentLength);
+      });
+
+      await sink.flush();
+      await sink.close();
+
+      onCompleted?.call(file.path);
     } catch (e) {
       onError?.call('Error downloading file: $e');
     }
@@ -78,55 +97,5 @@ class MobileFileDownloader implements FileDownloaderInterface {
           await getApplicationDocumentsDirectory();
     }
     return _directory;
-  }
-
-  Future<void> _download(String url, File file,
-      {String? token,
-      DownloadMethod method = DownloadMethod.GET,
-      ProgressCallback? onProgress,
-      CompletedCallback? onCompleted,
-      ErrorCallback? onError}) async
-  {
-    try {
-      //Add headers
-      Map<String, String> _headers = <String, String>{
-        'Content-Type': 'application/json'
-      };
-
-      //Ask For authorization
-      if (token != null) {
-        _headers['Authorization'] = 'Bearer $token';
-      }
-
-      //Request to server
-      final request = http.Request(
-          method == DownloadMethod.GET ? "GET" : 'POST', Uri.parse(url));
-      request.headers.addAll(_headers);
-
-      final response = await http.Client().send(request);
-
-      //
-      if (response.statusCode != 200) {
-        onError?.call('Failed to download file: HTTP ${response.statusCode}');
-        return;
-      }
-
-      final contentLength = response.contentLength ?? 0;
-      int receivedBytes = 0;
-
-      final IOSink sink = file.openWrite();
-      await response.stream.forEach((List<int> chunk) {
-        sink.add(chunk);
-        receivedBytes += chunk.length;
-        onProgress?.call(receivedBytes, contentLength);
-      });
-
-      await sink.flush();
-      await sink.close();
-
-      onCompleted?.call(file.path);
-    } catch (e) {
-      onError?.call('Error during GET download: $e');
-    }
   }
 }
