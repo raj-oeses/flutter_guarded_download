@@ -1,8 +1,5 @@
-// example/lib/main.dart
-
 import 'package:flutter/material.dart';
-import 'package:flutter_guarded_download/downloader/file_downloader.dart';
-import 'package:flutter_guarded_download/enums/method_enum.dart';
+import 'package:flutter_guarded_download/flutter_guarded_download.dart';
 
 void main() => runApp(const MyApp());
 
